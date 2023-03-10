@@ -1,0 +1,65 @@
+﻿<Window x:Class="PenShop.Windows.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PenShop.Windows"
+        mc:Ignorable="d"
+        Title="Login"
+        Width="350"
+        Height="390">
+    <StackPanel Margin="30"
+                VerticalAlignment="Center">
+
+        <TextBlock Text="Авторизация"
+                   Margin="0 0 0 20"
+                   FontSize="25"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"/>
+
+        <TextBlock x:Name="InfoMessage"
+                   Visibility="Collapsed"
+                   Foreground="Red"
+                   TextWrapping="Wrap"/>
+
+        <TextBlock Margin="0 10 0 0"
+                   Text="Логин"
+                   HorizontalAlignment="Center"/>
+
+        <TextBox x:Name="LoginBox"
+                 BorderThickness="0 0 0 1"
+                 TextWrapping="Wrap"
+                 Width="200"/>
+
+        <Separator/>
+
+        <TextBlock Margin="0 10 0 0"
+                   Text="Пароль"
+                   HorizontalAlignment="Center"/>
+        <PasswordBox x:Name="PasswordBox"
+                     BorderThickness="0 0 0 1"
+                     Width="200"/>
+
+        <Separator/>
+
+        <Separator/>
+
+        <Border Margin="0 10 0 0">
+            <Button x:Name="Enter"
+                    Content="Войти"
+                    Height="40"
+                    Width="250"
+                    FontSize="15"
+                    Click="Enter_Click"/>
+        </Border>
+
+        <Border Margin="0 10 0 0">
+            <Button x:Name="GoToRegistrationPage"
+                    Height="40"
+                    FontSize="15"
+                    Width="250"
+                    Content="Зарегистрироваться"
+                    Click="GoToRegistrationPage_Click"/>
+        </Border>
+    </StackPanel>
+</Window>
