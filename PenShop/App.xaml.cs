@@ -18,6 +18,7 @@ namespace PenShop
         public App()
         {
             db.User.Load();
+            db.Pen.Load();
         }
     }
 }
