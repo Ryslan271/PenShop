@@ -49,7 +49,18 @@ namespace PenShop.Windows
         private void GoToRegistrationPage_Click(object sender, RoutedEventArgs e)
         {
             new Registration().Show();
-            Hide();
+            Close();
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(MessageBox.Show("Вы уверены что хотите выйти из приложения?", "Уведомление", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                Close();
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
         #endregion
     }

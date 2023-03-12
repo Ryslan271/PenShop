@@ -102,11 +102,21 @@ namespace PenShop.Windows
             Close();
         }
 
-
         private void GoToLoginPagePage_Click(object sender, RoutedEventArgs e)
         {
             new Login().Show();
-            Hide();
+            Close();
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            new Login().Show();
+            Close();
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
         #endregion
     }
