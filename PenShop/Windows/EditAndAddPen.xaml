@@ -3,133 +3,163 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:PenShop.Windows"
-        mc:Ignorable="d"
-        Title="EditAndAddPen"
-        Height="450"
-        Closing="Root_Closing"
-        Width="800"
+        mc:Ignorable="d" ResizeMode="NoResize"
+        AllowsTransparency="True" WindowStyle="None"
+        Title="EditAndAddPen" Height="450"
+        Closing="Root_Closing" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
+        <Grid Background="Transparent"
+              VerticalAlignment="Top">
+            <Border Background="#FFD3D8FF"
+                VerticalAlignment="Top"
+                Height="28"
+                MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            </Border>
+            <TextBlock Text="Окно редактирования добавления" 
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="10 0 0 0"
+                       FontWeight="Bold"/>
+            <Border HorizontalAlignment="Right"
+                MouseDown="Border_MouseDown"
+                Style="{StaticResource ButtonShutdown}">
+                <fa:ImageAwesome Icon="Close" Width="10"
+                                 Foreground="Gray"/>
+            </Border>
+        </Grid>
+        <Grid Style="{StaticResource Grid}"
+              Margin="0 28 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-        <Border BorderBrush="Black"
+            <Border BorderBrush="Black"
                 BorderThickness=" 0 0 2 2 ">
-            <StackPanel VerticalAlignment="Center">
-                <Border BorderBrush="Black"
+                <StackPanel VerticalAlignment="Center">
+                    <Border BorderBrush="Black"
                         BorderThickness="1"
                         Width="200"
                         Height="200"
                         Margin="0 0 0 10">
 
-                    <Image x:Name="PhotoImage"
+                        <Image x:Name="PhotoImage"
                                VerticalAlignment="Top"
                                Margin="10"
                                Width="200"
                                Height="200">
-                        <Image.Source>
-                            <Binding Path="Photo">
-                                <Binding.TargetNullValue>
-                                    <BitmapImage UriSource="../Image/NetPhotoProduct.jpg"/>
-                                </Binding.TargetNullValue>
-                            </Binding>
-                        </Image.Source>
-                    </Image>
-                </Border>
+                            <Image.Source>
+                                <Binding Path="Photo">
+                                    <Binding.TargetNullValue>
+                                        <BitmapImage UriSource="../Image/NetPhotoProduct.jpg"/>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                    </Border>
 
-                <Button Padding="0 5"
+                    <Button Padding="0 5"
                         Content="Изменить картинку"
-                        Width="200" Click="EditImageProduct"/>
-            </StackPanel>
-        </Border>
+                        Width="200" Click="EditImageProduct"
+                        Style="{StaticResource Button}"/>
+                </StackPanel>
+            </Border>
 
-        <Border BorderBrush="Black"
+            <Border BorderBrush="Black"
                     BorderThickness=" 0 0 0 2 "
                     Grid.Column="1"
                     Padding="0 10">
-            <ScrollViewer>
-                <StackPanel HorizontalAlignment="Left"
+                <ScrollViewer>
+                    <StackPanel HorizontalAlignment="Left"
                             Margin="30 0 0 0"
                             VerticalAlignment="Center">
 
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                                     Margin="0 0 0 20"
                                     x:Name="IDStackPanel">
-                        <TextBlock Text="Номер:"
+                            <TextBlock Text="Номер:"
                                        Margin="0 0 10 0"/>
-                        <TextBox Text="{Binding PenEdit.Id}"
+                            <TextBox Text="{Binding PenEdit.Id}"
                                      IsReadOnly="True"
-                                     MaxWidth="400"/>
-                    </StackPanel>
+                                     MaxWidth="400"
+                                 Style="{StaticResource TextBox}"/>
+                        </StackPanel>
 
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                                     Margin="0 0 0 20">
-                        <TextBlock Text="Название:"
+                            <TextBlock Text="Название:"
                                        Margin="0 0 10 0"/>
-                        <TextBox x:Name="PenEditName"
+                            <TextBox x:Name="PenEditName"
                                  Text="{Binding PenEdit.Name}"
                                  TextWrapping="Wrap"
-                                 MaxWidth="400"/>
-                    </StackPanel>
+                                 MaxWidth="400"
+                                 Style="{StaticResource TextBox}"/>
+                        </StackPanel>
 
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                                 Margin="0 0 0 20">
-                        <TextBlock Text="Цвет:"
+                            <TextBlock Text="Цвет:"
                                    Margin="0 0 10 0"/>
-                        <TextBox x:Name="PenColorName"
+                            <TextBox x:Name="PenColorName"
                                  Text="{Binding PenEdit.PenColor.Name}"
                                  TextWrapping="Wrap"
-                                 MaxWidth="400"/>
-                    </StackPanel>
+                                 MaxWidth="400"
+                                 Style="{StaticResource TextBox}"/>
+                        </StackPanel>
 
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                                     Margin="0 0 0 20">
-                        <TextBlock Text="Тип:"
+                            <TextBlock Text="Тип:"
                                        Margin="0 0 10 0"/>
-                        <TextBox x:Name="PenTypeName"
+                            <TextBox x:Name="PenTypeName"
                                      Text="{Binding PenEdit.PenType.Name}"
                                      TextWrapping="Wrap"
-                                     MaxWidth="400"/>
-                    </StackPanel>
+                                     MaxWidth="400"
+                                     Style="{StaticResource TextBox}"/>
+                        </StackPanel>
 
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                                     Margin="0 0 0 20">
-                        <TextBlock Text="Вид:"
+                            <TextBlock Text="Вид:"
                                        Margin="0 0 10 0"/>
-                        <TextBox x:Name="PenViewName" 
+                            <TextBox x:Name="PenViewName" 
                                      Text="{Binding PenEdit.PenView.Name}"
                                      TextWrapping="Wrap"
-                                     MaxWidth="400"/>
-                    </StackPanel>
+                                     MaxWidth="400"
+                                     Style="{StaticResource TextBox}"/>
+                        </StackPanel>
 
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                                     Margin="0 0 0 20">
-                        <TextBlock Text="Стоимость:"
+                            <TextBlock Text="Стоимость:"
                                        Margin="0 0 10 0"/>
-                        <TextBox x:Name="Price"
+                            <TextBox x:Name="Price"
                                      Text="{Binding PenEdit.Price}"
                                      TextWrapping="Wrap"
-                                     MaxWidth="400"/>
+                                     MaxWidth="400"
+                                     Style="{StaticResource TextBox}"/>
+                        </StackPanel>
+
                     </StackPanel>
+                </ScrollViewer>
+            </Border>
 
-                </StackPanel>
-            </ScrollViewer>
-        </Border>
-
-        <Button Content="Сохранить"
+            <Button Content="Сохранить"
                     FontFamily="Bahnschrift"
                     Grid.Column="1"
                     Grid.Row="3"
                     HorizontalAlignment="Right"
                     Padding="5 5 5 5"
                     Margin="0 5 20 5"
-                    Click="SaveChagesInProduct"/>
+                    Click="SaveChagesInProduct"
+                    Style="{StaticResource Button}"/>
+        </Grid>
     </Grid>
 </Window>

@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="ListBoxProducts" TargetType="ListBoxItem">
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
@@ -34,7 +35,132 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="FontFamily"
-                Value="Bahnschrift"/>
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="buttonBorder" CornerRadius="10"
+                        BorderBrush="Gray"
+                        BorderThickness="2"
+                        Background="#FFFFF5F5">
+                        <ContentControl Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            FontFamily="Tahoma"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="buttonBorder" Property="Background" Value="#FFEAEAEA"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="buttonBorder" Property="Background" Value="#FFE4E1E1"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Grid" x:Key="Grid">
+        <Setter Property="TextBlock.FontFamily" Value="Comic Sans MS"/>
+        <Setter Property="Background" Value="#FFEDEFFF"/>
+    </Style>
+
+    <Style TargetType="StackPanel" x:Key="StackPanel">
+        <Setter Property="TextBlock.FontFamily" Value="Comic Sans MS"/>
+        <Setter Property="Background" Value="#FFEDEFFF"/>
+    </Style>
+
+    <Style TargetType="ScrollViewer" x:Key="ScrollViewer">
+        <Setter Property="Background" Value="#FFEDEFFF"/>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="TextBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="TextBlock.FontWeight" Value="Heavy"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border Name="Bd"
+                        Background="#FFC1C8E0"
+                        BorderThickness="2"
+                        BorderBrush="Gray"
+                        CornerRadius="5"
+                        SnapsToDevicePixels="true"
+                            Padding="0">
+                        <Grid Margin="5">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <TextBlock Text="Введите пароль" 
+                               Foreground="Gray" 
+                               Visibility="Collapsed"
+                               Name="txtPrompt"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled"
+                                         Value="false">
+                            <Setter TargetName="Bd"
+                                            Property="Background"
+                                            Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            <Setter Property="Foreground"
+                                            Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="PasswordBox" x:Key="PasswordBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border Name="Bd"
+                        Background="#FFC1C8E0"
+                        BorderThickness="2"
+                        BorderBrush="Gray"
+                        CornerRadius="5"
+                        SnapsToDevicePixels="true">
+                        <Grid Margin="5">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <TextBlock Text="Введите пароль" 
+                           Foreground="Gray" 
+                           Visibility="Collapsed"
+                           Name="txtPrompt"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled"
+                                         Value="false">
+                            <Setter TargetName="Bd"
+                                            Property="Background"
+                                            Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            <Setter Property="Foreground"
+                                            Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Border" x:Key="ButtonShutdown">
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="28"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Background" Value="#FF0000"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

@@ -55,9 +55,9 @@ namespace PenShop.Windows
 
         #region Изменение изображение
 
-        private void EditImageProduct(object sender, RoutedEventArgs e) => ChageImage();
+        private void EditImageProduct(object sender, RoutedEventArgs e) => ChangeImage();
 
-        private void ChageImage()
+        private void ChangeImage()
         {
             string filePath = OpenImage();
 
@@ -156,5 +156,15 @@ namespace PenShop.Windows
                                                "Уведомление",
                                                MessageBoxButton.YesNo,
                                                MessageBoxImage.Warning);
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

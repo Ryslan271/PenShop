@@ -5,26 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:PenShop"
-        mc:Ignorable="d"
-        Title="MainWindow"
-        Height="450"
-        Width="800"
+        mc:Ignorable="d" ResizeMode="NoResize"
+        WindowStyle="None" AllowsTransparency="True"
+        Title="Главное окно" Height="700" Width="1200"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <Window.Resources>
         <Style TargetType="fa:ImageAwesome">
             <Setter Property="Width" Value="20"/>
+            <Setter Property="Margin" Value="8 0"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Width" Value="25"/>
+                    <Setter Property="Margin" Value="6 0"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid>
+    <StackPanel>
+        <Grid Background="Transparent">
+            <Border Background="#FFD3D8FF"
+                VerticalAlignment="Top"
+                Height="28"
+                MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            </Border>
+            <TextBlock Text="Главное окно" 
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="10 0 0 0"
+                       FontWeight="Bold"/>
+            <Border HorizontalAlignment="Right"
+                MouseDown="Border_MouseDown"
+                Style="{StaticResource ButtonShutdown}">
+                <fa:ImageAwesome Icon="Close" Width="10"
+                                 Foreground="Gray"/>
+            </Border>
+        </Grid>
+    <Grid Style="{StaticResource Grid}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="689*"/>
-            <ColumnDefinition Width="111*"/>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -32,16 +52,17 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
+        <StackPanel
                     Orientation="Horizontal"
-                    VerticalAlignment="Top"
-                    Grid.Column="0">
+                    VerticalAlignment="Center"
+                    Grid.Column="0" Height="52">
             <StackPanel Orientation="Vertical"
                         Margin="10 0 15 0">
                 <TextBlock Text="Сортировка"
                            Margin="0 0 0 5"/>
                 <ComboBox SelectedIndex="0"
-                          x:Name="Sort">
+                          x:Name="Sort"
+                          Height="30">
                     <ComboBoxItem Tag="Any"
                                   Content="Все"/>
                     <ComboBoxItem Tag="Ascending"
@@ -55,7 +76,8 @@
                 <TextBlock Text="Сортировка"
                            Margin="0 0 0 5"/>
                 <ComboBox SelectedIndex="0"
-                          x:Name="Filt">
+                          x:Name="Filt"
+                          Height="30">
                     <ComboBoxItem Tag="Name"
                                   Content="По наименованию"/>
                     <ComboBoxItem Tag="Price"
@@ -72,22 +94,23 @@
                            Margin="0 0 0 5"/>
                 <TextBox MinHeight="23"
                          MinWidth="150"
-                         x:Name="NameDisSearchTb"/>
+                         x:Name="NameDisSearchTb"
+                         FontSize="12"
+                         Height="30"
+                         Style="{StaticResource TextBox}"/>
             </StackPanel>
         </StackPanel>
-        
+
         <StackPanel Grid.Column="1" 
-                    Orientation="Horizontal">
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center" Height="22">
             <fa:ImageAwesome Icon="plus"
-                             Margin="8 0"
                              Foreground="Green"
                              MouseDown="AddPenButton_MouseDown"/>
             <fa:ImageAwesome Icon="Pencil"
-                             Margin="8 0"
                              Foreground="Gray"
                              MouseDown="EditPenButton_MouseDown"/>
             <fa:ImageAwesome Icon="Trash"
-                             Margin="8 0"
                              Foreground="Red"
                              MouseDown="DeletePenButton_MouseDown"/>
         </StackPanel>
@@ -153,4 +176,5 @@
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
+    </StackPanel>
 </Window>
