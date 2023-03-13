@@ -76,6 +76,10 @@
     <Compile Include="Windows\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
+    <Page Include="Style\ComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Style\StyleToListBoxPen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

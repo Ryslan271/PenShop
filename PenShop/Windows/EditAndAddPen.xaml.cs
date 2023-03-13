@@ -1,19 +1,11 @@
 ﻿using Microsoft.Win32;
 using PenShop.Model;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PenShop.Windows
 {
@@ -24,6 +16,8 @@ namespace PenShop.Windows
     {
         Pen Pen;
 
+        #region Dependency Properties
+
         public Pen PenEdit
         {
             get { return (Pen)GetValue(PenEditProperty); }
@@ -31,6 +25,32 @@ namespace PenShop.Windows
         }
         public static readonly DependencyProperty PenEditProperty =
             DependencyProperty.Register("PenEdit", typeof(Pen), typeof(EditAndAddPen));
+
+        public IEnumerable<PenColor> PenColors
+        {
+            get { return (IEnumerable<PenColor>)GetValue(PenColorsProperty); }
+            set { SetValue(PenColorsProperty, value); }
+        }
+        public static readonly DependencyProperty PenColorsProperty =
+            DependencyProperty.Register("PenColors", typeof(IEnumerable<PenColor>), typeof(EditAndAddPen));
+
+        public IEnumerable<PenType> PenTypes
+        {
+            get { return (IEnumerable<PenType>)GetValue(PenTypesProperty); }
+            set { SetValue(PenTypesProperty, value); }
+        }
+        public static readonly DependencyProperty PenTypesProperty =
+            DependencyProperty.Register("PenTypes", typeof(IEnumerable<PenType>), typeof(EditAndAddPen));
+
+        public IEnumerable<PenView> PenViews
+        {
+            get { return (IEnumerable<PenView>)GetValue(PenViewsProperty); }
+            set { SetValue(PenViewsProperty, value); }
+        }
+        public static readonly DependencyProperty PenViewsProperty =
+            DependencyProperty.Register("PenViews", typeof(IEnumerable<PenView>), typeof(EditAndAddPen));
+
+        #endregion
 
         public byte[] Photo
         {
@@ -49,6 +69,10 @@ namespace PenShop.Windows
             Pen = pen;
 
             PenEdit = pen ?? new Pen();
+
+            PenColors = App.db.PenColor.Local;
+            PenViews = App.db.PenView.Local;
+            PenTypes = App.db.PenType.Local;
 
             InitializeComponent();
         }
@@ -140,10 +164,7 @@ namespace PenShop.Windows
 
         #region Проверка на заполненность полей
         private bool ValidatorProduct() => PenEditName.Text.Trim() == "" ||
-                                           PenColorName.Text.Trim() == "" ||
-                                           PenTypeName.Text.Trim() == "0" ||
-                                           Price.Text.Trim() == "0" ||
-                                           PenViewName.Text.Trim() == "0";
+                                           Price.Text.Trim() == "0";
 
         #endregion
 

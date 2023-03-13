@@ -104,36 +104,57 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal"
-                                Margin="0 0 0 20">
+                                    Margin="0 0 0 20">
                             <TextBlock Text="Цвет:"
                                    Margin="0 0 10 0"/>
-                            <TextBox x:Name="PenColorName"
-                                 Text="{Binding PenEdit.PenColor.Name}"
-                                 TextWrapping="Wrap"
-                                 MaxWidth="400"
-                                 Style="{StaticResource TextBox}"/>
+                            <ComboBox ItemsSource="{Binding PenColors}"
+                                      Style="{StaticResource ComboBox}"
+                                      x:Name="ComboBoxColor"
+                                      Margin="10 5 10 5"
+                                      FontFamily="Bahnschrift"
+                                      SelectedIndex="{Binding PenEdit.ColorId}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ComboBoxItem Content="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal"
                                     Margin="0 0 0 20">
                             <TextBlock Text="Тип:"
-                                       Margin="0 0 10 0"/>
-                            <TextBox x:Name="PenTypeName"
-                                     Text="{Binding PenEdit.PenType.Name}"
-                                     TextWrapping="Wrap"
-                                     MaxWidth="400"
-                                     Style="{StaticResource TextBox}"/>
+                                   Margin="0 0 10 0"/>
+                            <ComboBox ItemsSource="{Binding PenTypes}"
+                                      Style="{StaticResource ComboBox}"
+                                      x:Name="ComboBoxType"
+                                      Margin="10 5 10 5"
+                                      FontFamily="Bahnschrift"
+                                      SelectedIndex="{Binding PenEdit.TypeId}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ComboBoxItem Content="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal"
                                     Margin="0 0 0 20">
                             <TextBlock Text="Вид:"
-                                       Margin="0 0 10 0"/>
-                            <TextBox x:Name="PenViewName" 
-                                     Text="{Binding PenEdit.PenView.Name}"
-                                     TextWrapping="Wrap"
-                                     MaxWidth="400"
-                                     Style="{StaticResource TextBox}"/>
+                                   Margin="0 0 10 0"/>
+                            <ComboBox ItemsSource="{Binding PenViews}"
+                                      Style="{StaticResource ComboBox}"
+                                      x:Name="ComboBoxView"
+                                      Margin="10 5 10 5"
+                                      FontFamily="Bahnschrift"
+                                      SelectedIndex="{Binding PenEdit.ViewId}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ComboBoxItem Content="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal"
