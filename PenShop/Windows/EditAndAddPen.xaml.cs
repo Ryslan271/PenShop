@@ -143,6 +143,10 @@ namespace PenShop.Windows
             {
                 case MessageBoxResult.Yes:
 
+                    PenEdit.PenColor = ComboBoxColor.SelectedItem as PenColor;
+                    PenEdit.PenView = ComboBoxView.SelectedItem as PenView;
+                    PenEdit.PenType = ComboBoxType.SelectedItem as PenType;
+                    
                     if (Pen == null)
                         App.db.Pen.Add(PenEdit);
 
