@@ -45,8 +45,7 @@
                                 Focusable="True"                               
                                 Visibility="Hidden"
                                 IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                        <Popup
-                                Name="Popup"
+                        <Popup Name="Popup"
                                 Placement="Bottom"
                                 IsOpen="{TemplateBinding IsDropDownOpen}"
                                 AllowsTransparency="True"

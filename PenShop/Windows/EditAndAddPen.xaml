@@ -115,7 +115,7 @@
                                       SelectedIndex="{Binding PenEdit.ColorId}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <ComboBoxItem Content="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Name}"/>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
@@ -133,7 +133,7 @@
                                       SelectedIndex="{Binding PenEdit.TypeId}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <ComboBoxItem Content="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Name}"/>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
@@ -151,7 +151,7 @@
                                       SelectedIndex="{Binding PenEdit.ViewId}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <ComboBoxItem Content="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Name}"/>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
