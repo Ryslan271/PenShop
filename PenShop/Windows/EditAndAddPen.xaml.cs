@@ -143,9 +143,9 @@ namespace PenShop.Windows
             {
                 case MessageBoxResult.Yes:
 
-                    PenEdit.PenColor = ComboBoxColor.SelectedItem as PenColor;
-                    PenEdit.PenView = ComboBoxView.SelectedItem as PenView;
-                    PenEdit.PenType = ComboBoxType.SelectedItem as PenType;
+                    PenEdit.ColorId = (ComboBoxColor.SelectedItem as PenColor).Id;
+                    PenEdit.ViewId = (ComboBoxView.SelectedItem as PenView).Id;
+                    PenEdit.TypeId = (ComboBoxType.SelectedItem as PenType).Id;
                     
                     if (Pen == null)
                         App.db.Pen.Add(PenEdit);
@@ -161,6 +161,7 @@ namespace PenShop.Windows
                     foreach (var entry in App.db.ChangeTracker.Entries().Where(entry => entry.State == System.Data.Entity.EntityState.Modified))
                         entry.CurrentValues.SetValues(entry.OriginalValues);
                     MainWindow.Instance.Pens.Refresh();
+                    Close();
                     break;
             }
         }
@@ -168,7 +169,10 @@ namespace PenShop.Windows
 
         #region Проверка на заполненность полей
         private bool ValidatorProduct() => PenEditName.Text.Trim() == "" ||
-                                           Price.Text.Trim() == "0";
+                                           Price.Text.Trim() == "0" ||
+                                           ComboBoxColor.SelectedItem == null ||
+                                           ComboBoxView.SelectedItem == null ||
+                                           ComboBoxType.SelectedItem == null;
 
         #endregion
 
