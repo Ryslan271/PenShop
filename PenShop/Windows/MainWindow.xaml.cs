@@ -1,6 +1,7 @@
 ﻿using PenShop.Model;
 using PenShop.Windows;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,9 +22,38 @@ namespace PenShop
         public static readonly DependencyProperty PensProperty =
             DependencyProperty.Register("Pens", typeof(ICollectionView), typeof(MainWindow));
 
+        public Visibility VisibilityForUser
+        {
+            get { return (Visibility)GetValue(VisibilityForUserProperty); }
+            set { SetValue(VisibilityForUserProperty, value); }
+        }
+
+        public static readonly DependencyProperty VisibilityForUserProperty =
+            DependencyProperty.Register("VisibilityForUser", typeof(Visibility), typeof(MainWindow));
+
+        public Visibility VisibilityForClient
+        {
+            get { return (Visibility)GetValue(VisibilityForClientProperty); }
+            set { SetValue(VisibilityForClientProperty, value); }
+        }
+
+        public static readonly DependencyProperty VisibilityForClientProperty =
+            DependencyProperty.Register("VisibilityForClient", typeof(Visibility), typeof(MainWindow));
+
         public MainWindow()
         {
             Pens = new CollectionViewSource { Source = App.db.Pen.Local }.View;
+
+            if (App.User.Role.Id == 1 || App.User.Role.Id == 2)
+            {
+                VisibilityForUser = Visibility.Visible;
+                VisibilityForClient = Visibility.Collapsed;
+            }
+            else
+            {
+                VisibilityForUser = Visibility.Collapsed;
+                VisibilityForClient = Visibility.Visible;
+            }
 
             InitializeComponent();
 
@@ -127,6 +157,49 @@ namespace PenShop
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void PensList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (App.User.Role.Id != 3)
+                return;
+
+            if (PensList.SelectedItem == null)
+                return;
+
+            if (App.db.Order.Local.FirstOrDefault(o => o.User == App.User && o.Pen == (PensList.SelectedItem as Pen)) != null)
+            {
+                if (MessageBox.Show("Данный товар уже добавлен в список заказов, хотите увеличить количество на +1 шт.?", "Уведомление", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    EditCountOrderForUser(App.db.Order.Local.FirstOrDefault(o => o.User == App.User && o.Pen == (PensList.SelectedItem as Pen)));
+                
+                return;
+            }
+
+            Order newOrder = new Order()
+            {
+                User = App.User,
+                Pen = PensList.SelectedItem as Pen,
+                Count = 1
+            };
+
+            App.db.Order.Local.Add(newOrder);
+            App.db.SaveChanges();
+
+            MessageBox.Show("Товар добавлен в заказ");
+        }
+
+        private void EditCountOrderForUser(Order order)
+        {
+            order.Count++;
+            App.db.SaveChanges();
+
+            MessageBox.Show("Товар добавлен в заказ");
+        }
+
+        private void OpenOrderListMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            new OrderList().Show();
+            Close();
         }
     }
 }

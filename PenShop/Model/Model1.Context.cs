@@ -25,11 +25,12 @@ namespace PenShop.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Pen> Pen { get; set; }
         public virtual DbSet<PenColor> PenColor { get; set; }
         public virtual DbSet<PenType> PenType { get; set; }
         public virtual DbSet<PenView> PenView { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Pen> Pen { get; set; }
     }
 }

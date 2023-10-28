@@ -14,6 +14,12 @@ namespace PenShop.Model
     
     public partial class Pen
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Pen()
+        {
+            this.Order = new HashSet<Order>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
@@ -22,6 +28,8 @@ namespace PenShop.Model
         public int ColorId { get; set; }
         public int ViewId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Order { get; set; }
         public virtual PenColor PenColor { get; set; }
         public virtual PenType PenType { get; set; }
         public virtual PenView PenView { get; set; }

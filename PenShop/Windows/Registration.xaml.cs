@@ -25,17 +25,23 @@ namespace PenShop.Windows
 
         #region Методы
 
-        private (string, bool) ValidatePassword(string password)
+        private (List<string>, bool) ValidatePassword(string password)
         {
+            List<string> mess = new List<string>();
+
             if (password.Length < 6)
-                return ("Пароль должен быть не менее 6 символов", false);
+                mess.Add("Пароль должен быть не менее 6 символов");
             if (!password.Any(c => Char.IsUpper(c)))
-                return ("В пароле должна быть хотя бы одна прописная буква", false);
+                mess.Add("В пароле должна быть хотя бы одна прописная буква");
             if (!Regex.IsMatch(password, @"\d"))
-                return ("В пароле должна быть хотя бы одна цифра", false);
+                mess.Add("В пароле должна быть хотя бы одна цифра");
             if (!Regex.IsMatch(password, @"[!@#$%^]"))
-                return ("В пароле должен быть хотя бы одний из символов ! @ # $ % ^", false);
-            return ("", true);
+                mess.Add("В пароле должен быть хотя бы одний из символов ! @ # $ % ^");
+
+            if (mess.Count >= 1)
+                return (mess, false);
+
+            return (mess, true);
         }
 
         private User newUser() =>
@@ -75,11 +81,11 @@ namespace PenShop.Windows
                 return;
             }
 
-            (string message, bool flag) = ValidatePassword(PasswordBox.Password.Trim());
+            (List<string> message, bool flag) = ValidatePassword(PasswordBox.Password.Trim());
 
             if (flag == false)
             {
-                MessageBox.Show(message, "Уведомление", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(string.Join("\n", message), "Уведомление", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             try

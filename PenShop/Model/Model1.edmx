@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище PenShopDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PenId" Type="int" Nullable="false" />
+          <Property Name="Count" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Pen">
           <Key>
             <PropertyRef Name="Id" />
@@ -56,6 +65,30 @@
           <Property Name="Phone" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Order_Pen">
+          <End Role="Pen" Type="Self.Pen" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pen_PenColor">
           <End Role="PenColor" Type="Self.PenColor" Multiplicity="1" />
           <End Role="Pen" Type="Self.Pen" Multiplicity="*" />
@@ -105,12 +138,21 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище PenShopDBModelContainer">
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pen" EntityType="Self.Pen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PenColor" EntityType="Self.PenColor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PenType" EntityType="Self.PenType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PenView" EntityType="Self.PenView" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Order_Pen" Association="Self.FK_Order_Pen">
+            <End Role="Pen" EntitySet="Pen" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK_Pen_PenColor" Association="Self.FK_Pen_PenColor">
             <End Role="PenColor" EntitySet="PenColor" />
             <End Role="Pen" EntitySet="Pen" />
@@ -132,73 +174,22 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PenShopDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="PenColor">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Pen" Relationship="PenShopDBModel.FK_Pen_PenColor" FromRole="PenColor" ToRole="Pen" />
-        </EntityType>
-        <EntityType Name="PenType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Pen" Relationship="PenShopDBModel.FK_Pen_PenType" FromRole="PenType" ToRole="Pen" />
-        </EntityType>
-        <EntityType Name="PenView">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Pen" Relationship="PenShopDBModel.FK_Pen_PenView" FromRole="PenView" ToRole="Pen" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
-        </EntityType>
-        <Association Name="FK_User_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="PenShopDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="PenColor" EntityType="Self.PenColor" />
-          <EntitySet Name="PenType" EntityType="Self.PenType" />
-          <EntitySet Name="PenView" EntityType="Self.PenView" />
-          <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="User" EntityType="Self.User" />
-          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
+          <EntitySet Name="Order" EntityType="PenShopDBModel.Order" />
           <EntitySet Name="Pen" EntityType="PenShopDBModel.Pen" />
+          <EntitySet Name="PenColor" EntityType="PenShopDBModel.PenColor" />
+          <EntitySet Name="PenType" EntityType="PenShopDBModel.PenType" />
+          <EntitySet Name="PenView" EntityType="PenShopDBModel.PenView" />
+          <EntitySet Name="Role" EntityType="PenShopDBModel.Role" />
+          <EntitySet Name="User" EntityType="PenShopDBModel.User" />
+          <AssociationSet Name="FK_Order_Pen" Association="PenShopDBModel.FK_Order_Pen">
+            <End Role="Pen" EntitySet="Pen" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="PenShopDBModel.FK_Order_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK_Pen_PenColor" Association="PenShopDBModel.FK_Pen_PenColor">
             <End Role="PenColor" EntitySet="PenColor" />
             <End Role="Pen" EntitySet="Pen" />
@@ -211,7 +202,22 @@
             <End Role="PenView" EntitySet="PenView" />
             <End Role="Pen" EntitySet="Pen" />
           </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="PenShopDBModel.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PenId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Pen" Relationship="PenShopDBModel.FK_Order_Pen" FromRole="Order" ToRole="Pen" />
+          <NavigationProperty Name="User" Relationship="PenShopDBModel.FK_Order_User" FromRole="Order" ToRole="User" />
+        </EntityType>
         <EntityType Name="Pen">
           <Key>
             <PropertyRef Name="Id" />
@@ -223,10 +229,80 @@
           <Property Name="TypeId" Type="Int32" Nullable="false" />
           <Property Name="ColorId" Type="Int32" Nullable="false" />
           <Property Name="ViewId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="PenShopDBModel.FK_Order_Pen" FromRole="Pen" ToRole="Order" />
           <NavigationProperty Name="PenColor" Relationship="PenShopDBModel.FK_Pen_PenColor" FromRole="Pen" ToRole="PenColor" />
           <NavigationProperty Name="PenType" Relationship="PenShopDBModel.FK_Pen_PenType" FromRole="Pen" ToRole="PenType" />
           <NavigationProperty Name="PenView" Relationship="PenShopDBModel.FK_Pen_PenView" FromRole="Pen" ToRole="PenView" />
         </EntityType>
+        <EntityType Name="PenColor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pen" Relationship="PenShopDBModel.FK_Pen_PenColor" FromRole="PenColor" ToRole="Pen" />
+        </EntityType>
+        <EntityType Name="PenType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pen" Relationship="PenShopDBModel.FK_Pen_PenType" FromRole="PenType" ToRole="Pen" />
+        </EntityType>
+        <EntityType Name="PenView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pen" Relationship="PenShopDBModel.FK_Pen_PenView" FromRole="PenView" ToRole="Pen" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="PenShopDBModel.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="PenShopDBModel.FK_Order_User" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="Role" Relationship="PenShopDBModel.FK_User_Role" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_Order_Pen">
+          <End Type="PenShopDBModel.Pen" Role="Pen" Multiplicity="1" />
+          <End Type="PenShopDBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Type="PenShopDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="PenShopDBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pen_PenColor">
           <End Type="PenShopDBModel.PenColor" Role="PenColor" Multiplicity="1" />
           <End Type="PenShopDBModel.Pen" Role="Pen" Multiplicity="*" />
@@ -263,53 +339,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_User_Role">
+          <End Type="PenShopDBModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="PenShopDBModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище PenShopDBModelContainer" CdmEntityContainer="PenShopDBEntities">
-          <EntitySetMapping Name="PenColor">
-            <EntityTypeMapping TypeName="PenShopDBModel.PenColor">
-              <MappingFragment StoreEntitySet="PenColor">
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="PenShopDBModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="PenId" ColumnName="PenId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PenType">
-            <EntityTypeMapping TypeName="PenShopDBModel.PenType">
-              <MappingFragment StoreEntitySet="PenType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PenView">
-            <EntityTypeMapping TypeName="PenShopDBModel.PenView">
-              <MappingFragment StoreEntitySet="PenView">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="PenShopDBModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="PenShopDBModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -321,6 +375,50 @@
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PenColor">
+            <EntityTypeMapping TypeName="PenShopDBModel.PenColor">
+              <MappingFragment StoreEntitySet="PenColor">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PenType">
+            <EntityTypeMapping TypeName="PenShopDBModel.PenType">
+              <MappingFragment StoreEntitySet="PenType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PenView">
+            <EntityTypeMapping TypeName="PenShopDBModel.PenView">
+              <MappingFragment StoreEntitySet="PenView">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="PenShopDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="PenShopDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

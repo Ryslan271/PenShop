@@ -19,7 +19,7 @@ namespace PenShop
         {
             db.User.Load();
             db.Role.Load();
-
+            db.Order.Load();
             db.Pen.Load();
             db.PenColor.Load();
             db.PenView.Load();
